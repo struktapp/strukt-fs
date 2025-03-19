@@ -44,7 +44,7 @@ class FsTest extends PHPUnit\Framework\TestCase{
 			"bootstrap.php"=>"<?php\n//todo:bootstrap.php"
 		);
 
-		$this->fs = vfsStream::setup('payroll', null, $structure);
+		vfsStream::setup('payroll', null, $structure);
 	}
 
 	public function testMkdir(){
