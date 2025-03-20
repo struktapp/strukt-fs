@@ -16,6 +16,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function isDir(string $dir):bool{
 
 		return is_dir($dir);
@@ -28,6 +29,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function isFile(string $file):bool{
 
 		clearstatcache();
@@ -42,6 +44,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function isPath(string $path):bool{
 
 		clearstatcache();
@@ -56,6 +59,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean|string
 	*/
+	#[\Override]
 	public static function cat(string $file):bool|string{
 
 		if(self::isFile($file))
@@ -71,6 +75,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function touch(string $file):bool{
 
 		if(self::isFile($file))
@@ -87,6 +92,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function touchWrite(string $file, string $contents):bool{
 
 		if(self::touch($file))
@@ -104,6 +110,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function rename(string $from, string $to):bool{
 
 		if($from == $to)
@@ -136,6 +143,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return mixed
 	*/
+	#[\Override]
 	public static function overwrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
 		if(!self::isFile($file))
@@ -156,6 +164,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return mixed
 	*/
+	#[\Override]
 	public static function appendWrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
 		if(!self::isFile($file))
@@ -174,6 +183,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function rm(string $file):bool{
 
 		if(preg_match("/\*/", $file)){
@@ -198,6 +208,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean 
 	*/
+	#[\Override]
 	public static function rmdir(string $dir):bool{ 
 
 		foreach(glob($dir . '/*') as $file){
@@ -221,6 +232,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function mkdir(string $dir, int $mode = 0755, bool $recursive = true):bool{
 
 		return @mkdir($dir, $mode, $recursive);
@@ -233,6 +245,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function isWritable($file):bool{
 
 		if(self::isPath($file))
@@ -248,6 +261,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function isReadable($file):bool{
 
 		if(self::isFile($file))
@@ -262,6 +276,7 @@ class Fs implements Contract\FsStaticInterface{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
+	#[\Override]
 	public static function copyRecur(string $source, string $dest):void{
 
 	    if (is_dir($source)){
@@ -288,6 +303,7 @@ class Fs implements Contract\FsStaticInterface{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
+	#[\Override]
 	public static function cpr(string $source, string $dest):void{
 
 		self::copyRecur($source, $dest);
@@ -300,6 +316,7 @@ class Fs implements Contract\FsStaticInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public static function listFiles(string $path="."):array{
 
 		return array_values(array_diff(scandir($path), array('..', '.')));
@@ -312,6 +329,7 @@ class Fs implements Contract\FsStaticInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public static function ls(string $path="."):array{
 
 		return self::listFiles($path);
@@ -324,6 +342,7 @@ class Fs implements Contract\FsStaticInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public static function listFilesRecur(string $path="."):array{
 
 	    $rItrItr = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
@@ -348,6 +367,7 @@ class Fs implements Contract\FsStaticInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public static function lsr(string $path="."):array{
 
 		return self::listFilesRecur($path);
@@ -395,6 +415,7 @@ class Fs implements Contract\FsStaticInterface{
 	* 
 	* @return string
 	*/
+	#[\Override]
 	public static function tail(string $filepath, int $lines = 20):string{
 
 		$file = new \SplFileObject($filepath);
@@ -424,6 +445,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function zip(string $path, ?string $zipfile):bool{
 
 		if(is_null($zipfile)){
@@ -478,6 +500,7 @@ class Fs implements Contract\FsStaticInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public static function unzip(string $zipfile, string $topath = "./"):bool{
 
 		$unzipdir = trim($zipfile, ".zip");
@@ -499,6 +522,7 @@ class Fs implements Contract\FsStaticInterface{
 	* 
 	* @return string
 	*/
+	#[\Override]
 	public static function lsz(string $zippath):string{
 
 		$zip = new \ZipArchive;

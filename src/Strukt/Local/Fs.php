@@ -27,6 +27,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	 * 
 	 * @return string
 	 */
+	#[\Override]
 	public function path(string $path):string{
 
 		return Filesystem::ds(sprintf("%s/%s", rtrim($this->path, "/"), trim($path, "/")));
@@ -39,6 +40,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function isDir(string $dir):bool{
 
 		return Filesystem::isDir($this->path($dir));
@@ -51,6 +53,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function isFile(string $file):bool{
 		
 		return Filesystem::isFile($this->path($file));
@@ -63,6 +66,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function isPath(string $path):bool{
 
     	return Filesystem::isPath($this->path($path));
@@ -75,6 +79,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return string
 	*/
+	#[\Override]
 	public function cat(string $file):string{
 
 		return Filesystem::cat($this->path($file));
@@ -87,6 +92,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function touch(string $file):bool{
 
 		return Filesystem::touch($this->path($file));
@@ -100,6 +106,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function touchWrite(string $file, string $contents):bool{
 
 		return Filesystem::touchWrite($this->path($file), $contents);
@@ -113,6 +120,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function rename(string $from, string $to):bool{
 
 		return Filesystem::rename($this->path($from), $this->path($to));
@@ -127,6 +135,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function overwrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
 		return Filesystem::overwrite($this->path($file), $contents, $noLockEx);
@@ -141,6 +150,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function appendWrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
 		return Filesystem::appendWrite($this->path($file), $contents, $noLockEx);
@@ -153,6 +163,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function rm(string $file):bool{
 
 		return Filesystem::rm($this->path($file));
@@ -165,6 +176,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean 
 	*/
+	#[\Override]
 	public function rmdir(string $dir):bool{ 
 
 		return Filesystem::rmdir($this->path($dir));
@@ -179,6 +191,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function mkdir(string $dir, int $mode = 0755, bool $recursive = true):bool{
 
 		return Filesystem::mkdir($this->path($dir), $mode, $recursive);
@@ -191,6 +204,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function isWritable(string $file):bool{
 
 		return Filesystem::isWritable($this->path($file));
@@ -203,6 +217,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function isReadable(string $file):bool{
 
 		return Filesystem::isReadable($this->path($file));
@@ -214,6 +229,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
+	#[\Override]
 	public function copyRecur(string $source, string $dest):void{
 
 	    Filesystem::copyRecur($this->path($source), $this->path($dest));
@@ -225,6 +241,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
+	#[\Override]
 	public function cpr($source, $dest):void{
 
 		self::copyRecur($source, $dest);
@@ -237,6 +254,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public function listFiles(string $path="."):array{
 
 	    return Filesystem::listFiles($this->path($path));
@@ -249,6 +267,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public function ls(string $path="."):array{
 
 		return self::listFiles($path);
@@ -261,6 +280,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public function listFilesRecur(string $path="."):array{
 
 	    return Filesystem::listFilesRecur($this->path($path));
@@ -273,6 +293,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* 
 	* @return array
 	*/
+	#[\Override]
 	public function lsr(string $path="."):array{
 
 		return self::listFilesRecur($path);
@@ -286,6 +307,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* 
 	* @return string
 	*/
+	#[\Override]
 	public function tail(string $filepath, int $lines = 20):string{
 
 		return Filesystem::tail($this->path($filepath), $lines);
@@ -299,6 +321,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function zip(string $path, ?string $zipfile):bool{
 
 		return Filesystem::zip($this->path($path), $zipfile);
@@ -312,6 +335,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	*
 	* @return boolean
 	*/
+	#[\Override]
 	public function unzip(string $zipfile, string $topath = "./"):bool{
 
 		return Filesystem::unzip($this->path($zipfile), $this->path($topath));
@@ -324,6 +348,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* 
 	* @return string
 	*/
+	#[\Override]
 	public function lsz(string $zippath):string{
 
 		return Filesystem::lsz($this->path($zippath));
