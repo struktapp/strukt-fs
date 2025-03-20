@@ -4,7 +4,14 @@ namespace Strukt;
 
 class Phar{
 
-	public static function adapt(string $path = ""){
+	/**
+	 * Adapt paths to phar 
+	 * 
+	 * @param string $path
+	 * 
+	 * @return string
+	 */
+	public static function adapt(string $path = ""):string{
 
 		$phar_path = \Phar::running();
 
@@ -16,6 +23,8 @@ class Phar{
 	/**
 	 * @source \Psysh\Shell
      * Check if the currently running PsySH bin is a phar archive.
+     * 
+     * @return bool
      */
     public static function isPhar(): bool
     {

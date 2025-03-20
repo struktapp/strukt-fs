@@ -4,7 +4,7 @@ helper("filesystem");
 
 if(helper_add("fs")){
 
-	function fs(string $dir = null){
+	function fs(?string $dir){
 
 		if(!is_null($dir))
 			return new Strukt\Local\Fs(Strukt\Fs::ds($dir));
@@ -39,11 +39,13 @@ if(helper_add("path_exists")){
 
 if(helper_add("phar")){
 
-	function phar(string $path = null){
+	function phar(?string $path):mixed{
 
 		return new class($path){
 
-			public function __construct(string $path = null){
+			private string $path;
+
+			public function __construct(?string $path){
 
 				if(is_null($path))
 					$path = "";
@@ -56,7 +58,7 @@ if(helper_add("phar")){
 				return Strukt\Phar::isPhar();
 			}
 
-			public function adapt(){
+			public function adapt():string{
 
 				return Strukt\Phar::adapt($this->path);
 			}

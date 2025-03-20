@@ -7,7 +7,7 @@ namespace Strukt;
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class Fs{
+class Fs implements Contract\FsStaticInterface{
 
 	/**
 	* Check if dir exists
@@ -16,7 +16,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function isDir($dir){
+	public static function isDir(string $dir):bool{
 
 		return is_dir($dir);
 	}
@@ -28,7 +28,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function isFile($file){
+	public static function isFile(string $file):bool{
 
 		clearstatcache();
 		
@@ -42,7 +42,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function isPath($path){
+	public static function isPath(string $path):bool{
 
 		clearstatcache();
 
@@ -54,9 +54,9 @@ class Fs{
 	*
 	* @param string $file
 	*
-	* @return boolean
+	* @return boolean|string
 	*/
-	public static function cat($file){
+	public static function cat(string $file):bool|string{
 
 		if(self::isFile($file))
 			return @file_get_contents($file);
@@ -71,7 +71,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function touch($file){
+	public static function touch(string $file):bool{
 
 		if(self::isFile($file))
 			return false;
@@ -87,7 +87,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function touchWrite($file, $contents){
+	public static function touchWrite(string $file, string $contents):bool{
 
 		if(self::touch($file))
 			if(self::overwrite($file, $contents))
@@ -104,7 +104,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function rename($from, $to){
+	public static function rename(string $from, string $to):bool{
 
 		if($from == $to)
 			return false;
@@ -132,10 +132,11 @@ class Fs{
 	*
 	* @param string $file 
 	* @param string $contents
+	* @param bool $noLockEx
 	*
-	* @return boolean
+	* @return mixed
 	*/
-	public static function overwrite($file, $contents, $noLockEx = true){
+	public static function overwrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
 		if(!self::isFile($file))
 			return false;
@@ -151,10 +152,11 @@ class Fs{
 	*
 	* @param string $file 
 	* @param string $contents
+	* @param bool $noLockEx
 	*
-	* @return boolean
+	* @return mixed
 	*/
-	public static function appendWrite($file, $contents, $noLockEx = true){
+	public static function appendWrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
 		if(!self::isFile($file))
 			return false;
@@ -172,7 +174,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function rm($file){
+	public static function rm(string $file):bool{
 
 		if(preg_match("/\*/", $file)){
 
@@ -196,7 +198,7 @@ class Fs{
 	*
 	* @return boolean 
 	*/
-	public static function rmdir($dir) { 
+	public static function rmdir(string $dir):bool{ 
 
 		foreach(glob($dir . '/*') as $file){
 
@@ -213,11 +215,13 @@ class Fs{
 	/**
 	* Recursively make directory
 	*
-	* @param string $dir 
+	* @param string $dir
+	* @param int $mode
+	* @param bool $recursive 
 	*
 	* @return boolean
 	*/
-	public static function mkdir($dir, $mode = 0755, $recursive = true){
+	public static function mkdir(string $dir, int $mode = 0755, bool $recursive = true):bool{
 
 		return @mkdir($dir, $mode, $recursive);
 	}
@@ -229,7 +233,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function isWritable($file){
+	public static function isWritable($file):bool{
 
 		if(self::isPath($file))
 			return is_writable($file);
@@ -244,7 +248,7 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public static function isReadable($file){
+	public static function isReadable($file):bool{
 
 		if(self::isFile($file))
 			return is_readable($file);
@@ -258,7 +262,7 @@ class Fs{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
-	public static function copyRecur($source, $dest){
+	public static function copyRecur(string $source, string $dest):void{
 
 	    if (is_dir($source)){
 
@@ -284,7 +288,7 @@ class Fs{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
-	public static function cpr($source, $dest){
+	public static function cpr(string $source, string $dest):void{
 
 		self::copyRecur($source, $dest);
 	}
@@ -293,8 +297,10 @@ class Fs{
 	* List files
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public static function listFiles($path="."){
+	public static function listFiles(string $path="."):array{
 
 		return array_values(array_diff(scandir($path), array('..', '.')));
 	}
@@ -303,8 +309,10 @@ class Fs{
 	* Alias of Strukt/Fs::listFiles
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public static function ls($path="."){
+	public static function ls(string $path="."):array{
 
 		return self::listFiles($path);
 	}
@@ -313,8 +321,10 @@ class Fs{
 	* List files recursively
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public static function listFilesRecur($path="."){
+	public static function listFilesRecur(string $path="."):array{
 
 	    $rItrItr = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
@@ -335,8 +345,10 @@ class Fs{
 	* Alias of Strukt/Fs::listFilesRecur
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public static function lsr($path="."){
+	public static function lsr(string $path="."):array{
 
 		return self::listFilesRecur($path);
 	}
@@ -344,9 +356,9 @@ class Fs{
 	/**
 	* Which OS
 	*
-	* @return string
+	* @return bool
 	*/
-	public static function isWindows(){
+	public static function isWindows():bool{
 
 		return strtoupper(substr(PHP_OS, 0, 3)) == "WIN";
 	}
@@ -354,19 +366,23 @@ class Fs{
 	/**
 	* Change directory separator according to operating system
 	*
+	* @param string $path 
+	* 
 	* @return string
 	*/
-	public static function dirSep($path){
+	public static function dirSep(string $path):string{
 
 		return preg_replace("/(\/|\\\)/", DIRECTORY_SEPARATOR, $path);
 	}
 
 	/**
 	* Alias for Strukt\Fs::dirsep
+	* 
+	* @param string $path 
 	*
 	* @return string
 	*/
-	public static function ds($path){
+	public static function ds(string $path):string{
 
 		return self::dirSep($path);
 	}
@@ -374,9 +390,12 @@ class Fs{
 	/**
 	* Read last lines of file
 	*
+	* @param string $filepath 
+	* @param int $lines
+	* 
 	* @return string
 	*/
-	public static function tail(string $filepath, int $lines = 20){
+	public static function tail(string $filepath, int $lines = 20):string{
 
 		$file = new \SplFileObject($filepath);
 		$file->seek(PHP_INT_MAX);
@@ -399,10 +418,13 @@ class Fs{
 
 	/**
 	* Zip a directory
+	* 
+	* @param string $path
+	* @param string $zipfile
 	*
 	* @return boolean
 	*/
-	public static function zip($path, $zipfile = null){
+	public static function zip(string $path, ?string $zipfile):bool{
 
 		if(is_null($zipfile)){
 
@@ -450,10 +472,13 @@ class Fs{
 
 	/**
 	* Unzip dir
+	* 
+	* @param string zipfile
+	* @param string $topath
 	*
 	* @return boolean
 	*/
-	public static function unzip(string $zipfile, string $topath = "./"){
+	public static function unzip(string $zipfile, string $topath = "./"):bool{
 
 		$unzipdir = trim($zipfile, ".zip");
 
@@ -470,9 +495,11 @@ class Fs{
 	/**
 	* List what is in a *.zip file
 	* 
+	* @param string $zippath
+	* 
 	* @return string
 	*/
-	public static function lsz($zippath){
+	public static function lsz(string $zippath):string{
 
 		$zip = new \ZipArchive;
 		if ($zip->open($zippath) == TRUE)
@@ -484,8 +511,11 @@ class Fs{
 
 	/**
 	* Parse initialization file
+	* 
+	* @param string $path
+	* @param bool $sections
 	*
-	* @return string
+	* @return array
 	*/
 	public static function ini(string $path, bool $sections = true):array{
 
@@ -493,11 +523,13 @@ class Fs{
 	}
 
 	/**
-	* Require
+	* Require a file
+	* 
+	* @param string $path
 	*
-	* @return string
+	* @return mixed
 	*/
-	public static function req(string $path){
+	public static function req(string $path):mixed{
 
 		return require($path);
 	}

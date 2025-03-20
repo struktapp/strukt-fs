@@ -2,25 +2,34 @@
 
 namespace Strukt\Local;
 
-use Strukt\Fs as CoreFs;
+use Strukt\Fs as Filesystem;
 
 /**
 * File System Class (Local)
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class Fs{
+class Fs implements \Strukt\Contract\FsInterface{
 
 	private $path;
 
+	/**
+	 * @param string $path
+	 */
 	public function __construct(string $path){
 
-		$this->path = CoreFs::ds($path);
+		$this->path = Filesystem::ds($path);
 	}
 
-	public function path($path){
 
-		return CoreFs::ds(sprintf("%s/%s", rtrim($this->path, "/"), trim($path, "/")));
+	/**
+	 * @param string $path
+	 * 
+	 * @return string
+	 */
+	public function path(string $path):string{
+
+		return Filesystem::ds(sprintf("%s/%s", rtrim($this->path, "/"), trim($path, "/")));
 	}
 
 	/**
@@ -30,9 +39,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function isDir($dir){
+	public function isDir(string $dir):bool{
 
-		return CoreFs::isDir($this->path($dir));
+		return Filesystem::isDir($this->path($dir));
 	}
 
 	/**
@@ -42,9 +51,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function isFile($file){
+	public function isFile(string $file):bool{
 		
-		return CoreFs::isFile($this->path($file));
+		return Filesystem::isFile($this->path($file));
 	}
 
 	/**
@@ -54,9 +63,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function isPath($path){
+	public function isPath(string $path):bool{
 
-    	return CoreFs::isPath($this->path($path));
+    	return Filesystem::isPath($this->path($path));
   	}
 
   	/**
@@ -64,11 +73,11 @@ class Fs{
 	*
 	* @param string $file
 	*
-	* @return boolean
+	* @return string
 	*/
-	public function cat($file){
+	public function cat(string $file):string{
 
-		return CoreFs::cat($this->path($file));
+		return Filesystem::cat($this->path($file));
 	}
 
 	/**
@@ -78,9 +87,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function touch($file){
+	public function touch(string $file):bool{
 
-		return CoreFs::touch($this->path($file));
+		return Filesystem::touch($this->path($file));
 	}
 
 	/**
@@ -91,9 +100,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function touchWrite($file, $contents){
+	public function touchWrite(string $file, string $contents):bool{
 
-		return CoreFs::touchWrite($this->path($file), $contents);
+		return Filesystem::touchWrite($this->path($file), $contents);
 	}
 
 	/**
@@ -104,9 +113,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function rename($from, $to){
+	public function rename(string $from, string $to):bool{
 
-		return CoreFs::rename($this->path($from), $this->path($to));
+		return Filesystem::rename($this->path($from), $this->path($to));
 	}
 
 	/**
@@ -114,12 +123,13 @@ class Fs{
 	*
 	* @param string $file 
 	* @param string $contents
+	* @param boolean $noLockEx
 	*
 	* @return boolean
 	*/
-	public function overwrite($file, $contents, $noLockEx = true){
+	public function overwrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
-		return CoreFs::overwrite($this->path($file), $contents, $noLockEx);
+		return Filesystem::overwrite($this->path($file), $contents, $noLockEx);
 	}
 
 	/**
@@ -127,12 +137,13 @@ class Fs{
 	*
 	* @param string $file 
 	* @param string $contents
+	* @param boolean $noLockEx
 	*
 	* @return boolean
 	*/
-	public function appendWrite($file, $contents, $noLockEx = true){
+	public function appendWrite(string $file, string $contents, bool $noLockEx = true):mixed{
 
-		return CoreFs::appendWrite($this->path($file), $contents, $noLockEx);
+		return Filesystem::appendWrite($this->path($file), $contents, $noLockEx);
 	}
 
 	/**
@@ -142,9 +153,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function rm($file){
+	public function rm(string $file):bool{
 
-		return CoreFs::rm($this->path($file));
+		return Filesystem::rm($this->path($file));
 	}
 
 	/**
@@ -154,21 +165,23 @@ class Fs{
 	*
 	* @return boolean 
 	*/
-	public function rmdir($dir) { 
+	public function rmdir(string $dir):bool{ 
 
-		return CoreFs::rmdir($this->path($dir));
+		return Filesystem::rmdir($this->path($dir));
 	}
 
 	/**
 	* Recursively make directory
 	*
-	* @param string $dir 
+	* @param string $dir
+	* @param int $mode
+	* @param bool $recursive 
 	*
 	* @return boolean
 	*/
-	public function mkdir($dir, $mode = 0755, $recursive = true){
+	public function mkdir(string $dir, int $mode = 0755, bool $recursive = true):bool{
 
-		return CoreFs::mkdir($this->path($dir), $mode, $recursive);
+		return Filesystem::mkdir($this->path($dir), $mode, $recursive);
 	}
 
 	/**
@@ -178,9 +191,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function isWritable($file){
+	public function isWritable(string $file):bool{
 
-		return CoreFs::isWritable($this->path($file));
+		return Filesystem::isWritable($this->path($file));
 	}
 
 	/**
@@ -190,9 +203,9 @@ class Fs{
 	*
 	* @return boolean
 	*/
-	public function isReadable($file){
+	public function isReadable(string $file):bool{
 
-		return CoreFs::isReadable($this->path($file));
+		return Filesystem::isReadable($this->path($file));
 	}
 
 	/**
@@ -201,9 +214,9 @@ class Fs{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
-	public function copyRecur($source, $dest){
+	public function copyRecur(string $source, string $dest):void{
 
-	    CoreFs::copyRecur($this->path($source), $this->path($dest));
+	    Filesystem::copyRecur($this->path($source), $this->path($dest));
 	}
 
 	/**
@@ -212,7 +225,7 @@ class Fs{
 	 * @param string $source The path to the source file/directory
 	 * @param string $dest The path to the destination directory
 	 */
-	public function cpr($source, $dest){
+	public function cpr($source, $dest):void{
 
 		self::copyRecur($source, $dest);
 	}
@@ -221,18 +234,22 @@ class Fs{
 	* List files
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public function listFiles($path="."){
+	public function listFiles(string $path="."):array{
 
-	    return CoreFs::listFiles($this->path($path));
+	    return Filesystem::listFiles($this->path($path));
 	}
 
 	/**
 	* Alias of Strukt/Fs::listFiles
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public function ls($path="."){
+	public function ls(string $path="."):array{
 
 		return self::listFiles($path);
 	}
@@ -241,79 +258,99 @@ class Fs{
 	* List files recursively
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public function listFilesRecur($path="."){
+	public function listFilesRecur(string $path="."):array{
 
-	    return CoreFs::listFilesRecur($this->path($path));
+	    return Filesystem::listFilesRecur($this->path($path));
 	}
 
 	/**
 	* Alias Strukt/Fs::listFilesRecur
 	*
 	* @param string $path The path to directory
+	* 
+	* @return array
 	*/
-	public function lsr($path="."){
+	public function lsr(string $path="."):array{
 
 		return self::listFilesRecur($path);
 	}
 
 	/**
 	* Read last lines of file
-	*
+	* 
+	* @param string $filepath 
+	* @param int $lines
+	* 
 	* @return string
 	*/
-	public function tail(string $filepath, int $lines = 20){
+	public function tail(string $filepath, int $lines = 20):string{
 
-		return CoreFs::tail($this->path($filepath), $lines);
+		return Filesystem::tail($this->path($filepath), $lines);
 	}
 
 	/**
 	* Zip a directory
+	* 
+	* @param string $path
+	* @param string $zipfile
 	*
 	* @return boolean
 	*/
-	public function zip($path, $zipfile = null){
+	public function zip(string $path, ?string $zipfile):bool{
 
-		return CoreFs::zip($this->path($path), $zipfile);
+		return Filesystem::zip($this->path($path), $zipfile);
 	}
 
 	/**
 	* Unzip dir
+	* 
+	* @param string $zipfile
+	* @param string $topath
 	*
 	* @return boolean
 	*/
-	public function unzip(string $zipfile, string $topath = "./"){
+	public function unzip(string $zipfile, string $topath = "./"):bool{
 
-		return CoreFs::unzip($this->path($zipfile), $this->path($topath));
+		return Filesystem::unzip($this->path($zipfile), $this->path($topath));
 	}
 
 	/**
 	* List what is in a *.zip file
 	* 
+	* @param string $zippath
+	* 
 	* @return string
 	*/
-	public function lsz($zippath){
+	public function lsz(string $zippath):string{
 
-		return CoreFs::lsz($this->path($zippath));
+		return Filesystem::lsz($this->path($zippath));
 	}
 
 	/**
 	* Parse initialization file
-	*
+	* 
+	* @param string $path
+	* @param bool $sections
+	* 
 	* @return string
 	*/
-	public function ini(string $path, bool $sections = true){
+	public function ini(string $path, bool $sections = true):array{
 
-		return CoreFs::ini($this->path($path), $sections);
+		return Filesystem::ini($this->path($path), $sections);
 	}
 
 	/**
-	* Require
+	* Require a file
+	* 
+	* @param string $path
 	*
 	* @return string
 	*/
-	public function req(string $path){
+	public function req(string $path):mixed{
 
-		return CoreFs::req($this->path($path));
+		return Filesystem::req($this->path($path));
 	}
 }
