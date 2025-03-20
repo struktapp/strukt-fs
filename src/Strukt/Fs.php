@@ -7,7 +7,7 @@ namespace Strukt;
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class Fs implements Contract\FsStaticInterface{
+class Fs implements Contract\FilesystemInterface{
 
 	/**
 	* Check if dir exists

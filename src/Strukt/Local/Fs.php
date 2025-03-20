@@ -9,7 +9,7 @@ use Strukt\Fs as Filesystem;
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class Fs implements \Strukt\Contract\FsInterface{
+class Fs implements \Strukt\Contract\LocalFilesystemInterface{
 
 	private $path;
 

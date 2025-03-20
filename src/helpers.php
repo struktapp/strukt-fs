@@ -1,10 +1,18 @@
 <?php
 
+use Strukt\Fs;
+use Strukt\Local\Fs as LocalFs;
+
 helper("filesystem");
 
 if(helper_add("fs")){
 
-	function fs(?string $dir = null){
+	/**
+	 * @param string $dir 
+	 * 
+	 * @return Strukt\Local\Fs|Strukt\Fs
+	 */
+	function fs(?string $dir = null):LocalFs|Fs{
 
 		if(!is_null($dir))
 			return new Strukt\Local\Fs(Strukt\Fs::ds($dir));
@@ -15,7 +23,13 @@ if(helper_add("fs")){
 
 if(helper_add("tail")){
 
-	function tail(string $filepath, int $lines = 20){
+	/**
+	 * @param string $filepath
+	 * @param integer $lines
+	 * 
+	 * @return string
+	 */
+	function tail(string $filepath, int $lines = 20):string{
 
 		return Strukt\Fs::tail($filepath, $lines);
 	}
@@ -23,7 +37,12 @@ if(helper_add("tail")){
 
 if(helper_add("ds")){
 
-	function ds(string $path){
+	/**
+	 * @param string $path
+	 * 
+	 * @return string
+	 */
+	function ds(string $path):string{
 
 		return Strukt\Fs::ds(sprintf("%s/", trim($path, "/")));
 	}
@@ -31,7 +50,12 @@ if(helper_add("ds")){
 
 if(helper_add("path_exists")){
 
-	function path_exists(string $path){
+	/**
+	 * @param string $path
+	 * 
+	 * @return bool
+	 */
+	function path_exists(string $path):bool{
 
 		return fs()->isDir($path) || fs()->isPath($path);
 	}
@@ -39,12 +63,20 @@ if(helper_add("path_exists")){
 
 if(helper_add("phar")){
 
+	/**
+	 * @param string $path
+	 * 
+	 * @return mixed
+	 */
 	function phar(?string $path = null):mixed{
 
 		return new class($path){
 
 			private string $path;
 
+			/**
+			 * @param string $path
+			 */
 			public function __construct(?string $path){
 
 				if(is_null($path))
@@ -53,11 +85,17 @@ if(helper_add("phar")){
 				$this->path = $path;
 			}
 
+			/**
+			 * @return bool
+			 */
 			public function active():bool{
 
 				return Strukt\Phar::isPhar();
 			}
 
+			/**
+			 * @return string
+			 */
 			public function adapt():string{
 
 				return Strukt\Phar::adapt($this->path);
