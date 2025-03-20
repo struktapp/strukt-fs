@@ -446,7 +446,7 @@ class Fs implements Contract\FsStaticInterface{
 	* @return boolean
 	*/
 	#[\Override]
-	public static function zip(string $path, ?string $zipfile):bool{
+	public static function zip(string $path, ?string $zipfile = null):bool{
 
 		if(is_null($zipfile)){
 

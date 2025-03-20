@@ -242,7 +242,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	 * @param string $dest The path to the destination directory
 	 */
 	#[\Override]
-	public function cpr($source, $dest):void{
+	public function cpr(string $source, string $dest):void{
 
 		self::copyRecur($source, $dest);
 	}
@@ -322,7 +322,7 @@ class Fs implements \Strukt\Contract\FsInterface{
 	* @return boolean
 	*/
 	#[\Override]
-	public function zip(string $path, ?string $zipfile):bool{
+	public function zip(string $path, ?string $zipfile = null):bool{
 
 		return Filesystem::zip($this->path($path), $zipfile);
 	}

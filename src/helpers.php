@@ -4,7 +4,7 @@ helper("filesystem");
 
 if(helper_add("fs")){
 
-	function fs(?string $dir){
+	function fs(?string $dir = null){
 
 		if(!is_null($dir))
 			return new Strukt\Local\Fs(Strukt\Fs::ds($dir));
@@ -39,7 +39,7 @@ if(helper_add("path_exists")){
 
 if(helper_add("phar")){
 
-	function phar(?string $path):mixed{
+	function phar(?string $path = null):mixed{
 
 		return new class($path){
 
