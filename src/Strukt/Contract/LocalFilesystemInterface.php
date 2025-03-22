@@ -7,7 +7,7 @@ namespace Strukt\Contract;
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-interface FsInterface{
+interface LocalFilesystemInterface{
 
 	public function path(string $path):string;
 	public function isDir(string $dir):bool;
