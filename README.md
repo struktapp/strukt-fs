@@ -11,6 +11,8 @@ Basic filesystem functionality.
 
 ## Usage
 
+### API
+
 ```php
 Strukt\Fs::isDir(file) //Directory Exists
 Strukt\Fs::isFile(file) //File Exists
@@ -35,3 +37,16 @@ Strukt\Fs::isWindows()//Is OS Windows
 Strukt\Fs::dirSep(path)//OS appropriate directory separator on path
 Strukt\Fs::ds(path)//Alisas for dirSep
 ```
+
+### Helpers
+
+```php
+fs(); #Strukt\Fs
+fs("."); #Strukt\Local\Fs
+tail("README.md");
+ds("src/Strukt/Contract"); # Change directory separator depending on OS
+path_exists("src/Strukt/Contract");
+phar()->active(); # Detect is code is inside a Phar archive
+phar("src/Strukt/Contract")->adapt(); # Adapt to Phar path if in Phar archive, otherwise return qualified path
+```
+
