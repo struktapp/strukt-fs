@@ -103,3 +103,21 @@ if(helper_add("phar")){
 		};
 	}
 }
+
+if(helper_add("local")){
+
+	/**
+	 * Localize string path to url
+	 * 
+	 * @param string $path
+	 * 
+	 * @return string|null
+	 */
+	function local(string $path):string|null{
+
+		if(path_exists($path))
+			return sprintf("file://%s", realpath($path));
+
+		return null;
+	}
+}
