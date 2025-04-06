@@ -115,9 +115,12 @@ if(helper_add("local")){
 	 */
 	function local(string $path):string|null{
 
-		if(path_exists($path))
+		if(!path_exists($path))
+			return null;
+
+		if(!str_starts_with($path, "file://"))
 			return sprintf("file://%s", realpath($path));
 
-		return null;
+		return $path;
 	}
 }
