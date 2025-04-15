@@ -516,6 +516,26 @@ class Fs implements Contract\FilesystemInterface{
 	}
 
 	/**
+	* Zip files to zip via list
+	* 
+	* @param string zipfile
+	* @param array $files
+	*
+	* @return boolean
+	*/
+	public static function addZipList(string $zipfile, array $files):bool{
+
+		$zip = new \ZipArchive();
+		if($zip->open($zipfile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === TRUE){
+
+			array_map(fn($file)=>$zip->addFile(realpath($file), $file), $files);
+			$zip->close();
+		}
+
+		return Fs::isFile($zipfile);
+	}
+
+	/**
 	* List what is in a *.zip file
 	* 
 	* @param string $zippath

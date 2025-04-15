@@ -328,6 +328,20 @@ class Fs implements \Strukt\Contract\LocalFilesystemInterface{
 	}
 
 	/**
+	* Zip files to zip via list
+	* 
+	* @param string zipfile
+	* @param array $files
+	*
+	* @return boolean
+	*/
+	#[\Override]
+	public static function addZipList(string $zipfile, array $files):bool{
+
+		return Filesystem::addZipList($this->path($zipfile), $files);
+	}
+
+	/**
 	* Unzip dir
 	* 
 	* @param string $zipfile
