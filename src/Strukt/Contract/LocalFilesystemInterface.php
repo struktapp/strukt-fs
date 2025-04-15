@@ -32,6 +32,7 @@ interface LocalFilesystemInterface{
 	public function lsr(string $path):array;
 	public function tail(string $filepath, int $lines):string;
 	public function zip(string $path, ?string $zipfile):bool;
+	public function addZipList(string $zipfile, array $files):bool;
 	public function unzip(string $zipfile, string $topath):bool;
 	public function lsz(string $zippath):string;
 }

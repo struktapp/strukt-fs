@@ -32,6 +32,7 @@ interface FilesystemInterface{
 	public static function lsr(string $path):array;
 	public static function tail(string $filepath, int $lines):string;
 	public static function zip(string $path, ?string $zipfile):bool;
+	public static function addZipList(string $zipfile, array $files):bool;
 	public static function unzip(string $zipfile, string $topath):bool;
 	public static function lsz(string $zippath):string;
 }
