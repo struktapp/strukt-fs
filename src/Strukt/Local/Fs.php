@@ -336,7 +336,7 @@ class Fs implements \Strukt\Contract\LocalFilesystemInterface{
 	* @return boolean
 	*/
 	#[\Override]
-	public static function addZipList(string $zipfile, array $files):bool{
+	public function addZipList(string $zipfile, array $files):bool{
 
 		return Filesystem::addZipList($this->path($zipfile), $files);
 	}
