@@ -9,6 +9,20 @@
         },
         "files":["src/helpers.php"]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require":{
+        "strukt/base":"dev-changes",
+        "ext-zip": "*"
+    },
+    "require-dev": {
+        "mikey179/vfsstream": "^1.6",
+        "pestphp/pest": "4.x-dev",
+        "symfony/var-dumper": "6.4.x-dev"
+    },
     "authors": [
         {
             "name": "pitsolu",
@@ -16,5 +30,18 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../base",
+            "options": {
+                "symlink": false
+            }
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }
