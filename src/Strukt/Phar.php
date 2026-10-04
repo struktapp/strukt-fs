@@ -1,10 +1,11 @@
 <?php
-
 namespace Strukt;
 
 use Strukt\Fs\Fs;
 
-/** Adapts relative paths when code runs from a Phar archive. */
+/**
+ * Adapts relative paths when code runs from a Phar archive.
+ **/
 final class Phar
 {
     /**
@@ -27,7 +28,7 @@ final class Phar
      */
     public static function isPhar(): bool
     {
-        if (!class_exists('Phar')) {
+        if (! class_exists('Phar')) {
             return false;
         }
 

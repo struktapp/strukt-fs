@@ -8,20 +8,20 @@ if (function_exists('helper')) {
     helper('filesystem');
 }
 
-if (!function_exists('fs') && helper_add('fs')) {
+if (! function_exists('fs') && helper_add('fs')) {
     /**
      * Creates a filesystem facade.
      *
      * @param string|null $dir Optional root directory for relative operations.
      * @return Fs|Rfs Static or rooted filesystem facade.
      */
-    function fs(?string $dir = null): Fs|Rfs
+    function fs(?string $dir = null): Fs | Rfs
     {
         return $dir === null ? new Fs() : new Rfs(Fs::ds($dir));
     }
 }
 
-if (!function_exists('tail') && helper_add('tail')) {
+if (! function_exists('tail') && helper_add('tail')) {
     /**
      * Reads the final lines of a file.
      *
@@ -35,7 +35,7 @@ if (!function_exists('tail') && helper_add('tail')) {
     }
 }
 
-if (!function_exists('ds') && helper_add('ds')) {
+if (! function_exists('ds') && helper_add('ds')) {
     /**
      * Normalizes path separators for the current operating system.
      *
@@ -48,7 +48,7 @@ if (!function_exists('ds') && helper_add('ds')) {
     }
 }
 
-if (!function_exists('path_exists') && helper_add('path_exists')) {
+if (! function_exists('path_exists') && helper_add('path_exists')) {
     /**
      * Checks whether a file or directory exists.
      *
@@ -61,7 +61,7 @@ if (!function_exists('path_exists') && helper_add('path_exists')) {
     }
 }
 
-if (!function_exists('phar') && helper_add('phar')) {
+if (! function_exists('phar') && helper_add('phar')) {
     /**
      * Creates a Phar path adapter.
      *
@@ -70,23 +70,32 @@ if (!function_exists('phar') && helper_add('phar')) {
      */
     function phar(?string $path = null): object
     {
-        return new class($path) {
-            /** Optional path retained by the adapter. */
+        return new class($path)
+        {
+            /**
+             * Optional path retained by the adapter.
+             **/
             private string $path;
 
-            /** @param string|null $path Optional path. */
+            /**
+             * @param string|null $path Optional path.
+             **/
             public function __construct(?string $path)
             {
                 $this->path = $path ?? '';
             }
 
-            /** @return bool Whether Phar execution is active. */
+            /**
+             * @return bool Whether Phar execution is active.
+             **/
             public function active(): bool
             {
                 return PharAdapter::isPhar();
             }
 
-            /** @return string Adapted path. */
+            /**
+             * @return string Adapted path.
+             **/
             public function adapt(): string
             {
                 return PharAdapter::adapt($this->path);
@@ -95,7 +104,7 @@ if (!function_exists('phar') && helper_add('phar')) {
     }
 }
 
-if (!function_exists('local') && helper_add('local')) {
+if (! function_exists('local') && helper_add('local')) {
     /**
      * Converts an existing path into a file URI.
      *
@@ -104,7 +113,7 @@ if (!function_exists('local') && helper_add('local')) {
      */
     function local(string $path): ?string
     {
-        if (!Fs::isPath($path)) {
+        if (! Fs::isPath($path)) {
             return null;
         }
 

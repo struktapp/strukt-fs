@@ -1,10 +1,11 @@
 <?php
-
 namespace Strukt\Fs;
 
 use Strukt\Contract\FsInterface;
 
-/** Efficient static filesystem operations for local and stream-wrapper paths. */
+/**
+ * Efficient static filesystem operations for local and stream-wrapper paths.
+ **/
 final class Fs implements FsInterface
 {
     /**
@@ -46,9 +47,9 @@ final class Fs implements FsInterface
      * @param string $file File path.
      * @return string|false Contents, or `false` when unavailable.
      */
-    public static function cat(string $file): string|false
+    public static function cat(string $file): string | false
     {
-        if (!is_file($file)) {
+        if (! is_file($file)) {
             return false;
         }
 
@@ -63,7 +64,7 @@ final class Fs implements FsInterface
      */
     public static function touch(string $file): bool
     {
-        return !is_file($file) && @touch($file);
+        return ! is_file($file) && @touch($file);
     }
 
     /**
@@ -76,11 +77,11 @@ final class Fs implements FsInterface
     public static function touchWrite(string $file, string $contents): bool
     {
         $parent = dirname($file);
-        if ($parent !== '.' && !self::mkdir($parent)) {
+        if ($parent !== '.' && ! self::mkdir($parent)) {
             return false;
         }
 
-        if (!self::touch($file)) {
+        if (! self::touch($file)) {
             return false;
         }
 
@@ -96,13 +97,13 @@ final class Fs implements FsInterface
      */
     public static function rename(string $from, string $to): bool
     {
-        if ($from === $to || !is_file($from)) {
+        if ($from === $to || ! is_file($from)) {
             return false;
         }
 
         if (is_file($to)) {
             $backup = self::backupPath($to);
-            if (!@rename($to, $backup)) {
+            if (! @rename($to, $backup)) {
                 return false;
             }
         }
@@ -118,9 +119,9 @@ final class Fs implements FsInterface
      * @param bool $noLockEx Whether to omit an exclusive lock.
      * @return int|false Number of bytes written, or `false`.
      */
-    public static function overwrite(string $file, string $contents, bool $noLockEx = true): int|false
+    public static function overwrite(string $file, string $contents, bool $noLockEx = true): int | false
     {
-        if (!is_file($file)) {
+        if (! is_file($file)) {
             return false;
         }
 
@@ -137,9 +138,9 @@ final class Fs implements FsInterface
      * @param bool $noLockEx Whether to omit an exclusive lock.
      * @return int|false Number of bytes written, or `false`.
      */
-    public static function appendWrite(string $file, string $contents, bool $noLockEx = true): int|false
+    public static function appendWrite(string $file, string $contents, bool $noLockEx = true): int | false
     {
-        if (!is_file($file)) {
+        if (! is_file($file)) {
             return false;
         }
 
@@ -165,10 +166,10 @@ final class Fs implements FsInterface
         }
 
         foreach ($targets as $target) {
-            if (!is_file($target) && !is_link($target)) {
+            if (! is_file($target) && ! is_link($target)) {
                 return false;
             }
-            if (!@unlink($target)) {
+            if (! @unlink($target)) {
                 return false;
             }
         }
@@ -184,7 +185,7 @@ final class Fs implements FsInterface
      */
     public static function rmdir(string $dir): bool
     {
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             return false;
         }
 
@@ -196,11 +197,11 @@ final class Fs implements FsInterface
 
             foreach ($iterator as $item) {
                 $path = $item->getPathname();
-                if ($item->isDir() && !$item->isLink()) {
-                    if (!@rmdir($path)) {
+                if ($item->isDir() && ! $item->isLink()) {
+                    if (! @rmdir($path)) {
                         return false;
                     }
-                } elseif (!@unlink($path)) {
+                } elseif (! @unlink($path)) {
                     return false;
                 }
             }
@@ -264,18 +265,18 @@ final class Fs implements FsInterface
             $target = is_dir($dest)
                 ? self::ds(rtrim($dest, '/\\') . DIRECTORY_SEPARATOR . basename($source))
                 : $dest;
-            if (!self::mkdir(dirname($target)) || !@copy($source, $target)) {
+            if (! self::mkdir(dirname($target)) || ! @copy($source, $target)) {
                 throw new \RuntimeException(sprintf('Unable to copy [%s] to [%s].', $source, $target));
             }
 
             return;
         }
 
-        if (!is_dir($source)) {
+        if (! is_dir($source)) {
             throw new \RuntimeException(sprintf('Source path [%s] does not exist.', $source));
         }
 
-        if (!self::mkdir($dest)) {
+        if (! self::mkdir($dest)) {
             throw new \RuntimeException(sprintf('Unable to create destination [%s].', $dest));
         }
 
@@ -288,13 +289,13 @@ final class Fs implements FsInterface
             foreach ($iterator as $item) {
                 $target = self::ds(rtrim($dest, '/\\') . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
                 if ($item->isDir()) {
-                    if (!self::mkdir($target)) {
+                    if (! self::mkdir($target)) {
                         throw new \RuntimeException(sprintf('Unable to create destination [%s].', $target));
                     }
                     continue;
                 }
 
-                if (!@copy($item->getPathname(), $target)) {
+                if (! @copy($item->getPathname(), $target)) {
                     throw new \RuntimeException(sprintf('Unable to copy [%s] to [%s].', $item->getPathname(), $target));
                 }
             }
@@ -323,7 +324,7 @@ final class Fs implements FsInterface
      */
     public static function listFiles(string $path = '.'): array
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             return [];
         }
 
@@ -351,7 +352,7 @@ final class Fs implements FsInterface
      */
     public static function listFilesRecur(string $path = '.'): array
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             return [];
         }
 
@@ -424,7 +425,7 @@ final class Fs implements FsInterface
      */
     public static function tail(string $filepath, int $lines = 20): string
     {
-        if ($lines <= 0 || !is_file($filepath)) {
+        if ($lines <= 0 || ! is_file($filepath)) {
             return '';
         }
 
@@ -439,13 +440,13 @@ final class Fs implements FsInterface
             return '';
         }
 
-        $buffer = '';
+        $buffer    = '';
         $chunkSize = 8192;
         do {
-            $readSize = min($chunkSize, $position);
+            $readSize  = min($chunkSize, $position);
             $position -= $readSize;
             fseek($handle, $position);
-            $chunk = fread($handle, $readSize);
+            $chunk  = fread($handle, $readSize);
             if ($chunk === false) {
                 fclose($handle);
                 return '';
@@ -456,8 +457,8 @@ final class Fs implements FsInterface
         fclose($handle);
 
         $newlineCount = substr_count($buffer, "\n");
-        $lineCount = str_ends_with($buffer, "\n") ? $newlineCount : $newlineCount + 1;
-        $skip = $lineCount - $lines;
+        $lineCount    = str_ends_with($buffer, "\n") ? $newlineCount : $newlineCount + 1;
+        $skip         = $lineCount - $lines;
         if ($skip <= 0) {
             return $buffer;
         }
@@ -485,7 +486,7 @@ final class Fs implements FsInterface
     {
         self::requireZip();
         $root = realpath($path);
-        if ($root === false || !is_dir($root)) {
+        if ($root === false || ! is_dir($root)) {
             return false;
         }
 
@@ -507,12 +508,12 @@ final class Fs implements FsInterface
                 \RecursiveIteratorIterator::LEAVES_ONLY,
             );
             foreach ($iterator as $item) {
-                if (!$item->isFile()) {
+                if (! $item->isFile()) {
                     continue;
                 }
 
                 $relative = substr($item->getPathname(), strlen($root) + 1);
-                if (!$archive->addFile($item->getPathname(), str_replace('\\', '/', $relative))) {
+                if (! $archive->addFile($item->getPathname(), str_replace('\\', '/', $relative))) {
                     $archive->close();
                     return false;
                 }
@@ -542,7 +543,7 @@ final class Fs implements FsInterface
 
         foreach ($files as $file) {
             $real = realpath($file);
-            if ($real === false || !is_file($real) || !$archive->addFile($real, basename($file))) {
+            if ($real === false || ! is_file($real) || ! $archive->addFile($real, basename($file))) {
                 $archive->close();
                 return false;
             }
@@ -563,7 +564,7 @@ final class Fs implements FsInterface
     public static function unzip(string $zipfile, string $topath = './'): bool
     {
         self::requireZip();
-        if (!is_file($zipfile)) {
+        if (! is_file($zipfile)) {
             return false;
         }
 
@@ -581,7 +582,7 @@ final class Fs implements FsInterface
         }
 
         $destination = self::ds(rtrim($topath, '/\\') . DIRECTORY_SEPARATOR . pathinfo($zipfile, PATHINFO_FILENAME));
-        if (!self::mkdir($destination) || !$archive->extractTo($destination)) {
+        if (! self::mkdir($destination) || ! $archive->extractTo($destination)) {
             $archive->close();
             return false;
         }
@@ -647,9 +648,9 @@ final class Fs implements FsInterface
      */
     private static function backupPath(string $path): string
     {
-        $base = $path . '_' . date('Y-m-d_H-i-s');
+        $base      = $path . '_' . date('Y-m-d_H-i-s');
         $candidate = $base . '.bak';
-        $counter = 1;
+        $counter   = 1;
         while (file_exists($candidate)) {
             $candidate = sprintf('%s_%d.bak', $base, $counter++);
         }
@@ -665,7 +666,7 @@ final class Fs implements FsInterface
      */
     private static function requireZip(): void
     {
-        if (!class_exists(\ZipArchive::class)) {
+        if (! class_exists(\ZipArchive::class)) {
             throw new \RuntimeException('Filesystem archive operations require ext-zip.');
         }
     }

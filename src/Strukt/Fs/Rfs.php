@@ -1,10 +1,11 @@
 <?php
-
 namespace Strukt\Fs;
 
 use Strukt\Contract\RfsInterface;
 
-/** Relative filesystem facade that normalizes paths once at the boundary. */
+/**
+ * Relative filesystem facade that normalizes paths once at the boundary.
+ **/
 final class Rfs implements RfsInterface
 {
     /** Root directory for all relative operations. */
@@ -17,7 +18,7 @@ final class Rfs implements RfsInterface
      */
     public function __construct(string $path)
     {
-        $path = Fs::ds($path);
+        $path       = Fs::ds($path);
         $this->root = rtrim($path, '/\\');
         if ($this->root === '') {
             $this->root = '.';
@@ -59,7 +60,7 @@ final class Rfs implements RfsInterface
     }
 
     /** @param string $file Relative file path. @return string|false Contents. */
-    public function cat(string $file): string|false
+    public function cat(string $file): string | false
     {
         return Fs::cat($this->path($file));
     }
@@ -83,13 +84,13 @@ final class Rfs implements RfsInterface
     }
 
     /** @param string $file Relative file path. @param string $contents Contents. @param bool $noLockEx Whether to omit locking. @return int|false Bytes written. */
-    public function overwrite(string $file, string $contents, bool $noLockEx = true): int|false
+    public function overwrite(string $file, string $contents, bool $noLockEx = true): int | false
     {
         return Fs::overwrite($this->path($file), $contents, $noLockEx);
     }
 
     /** @param string $file Relative file path. @param string $contents Contents. @param bool $noLockEx Whether to omit locking. @return int|false Bytes written. */
-    public function appendWrite(string $file, string $contents, bool $noLockEx = true): int|false
+    public function appendWrite(string $file, string $contents, bool $noLockEx = true): int | false
     {
         return Fs::appendWrite($this->path($file), $contents, $noLockEx);
     }
@@ -175,7 +176,7 @@ final class Rfs implements RfsInterface
     /** @param string $zipfile Relative archive path. @param array<int, string> $files Relative files. @return bool Whether archived. */
     public function addZipList(string $zipfile, array $files): bool
     {
-        $absoluteFiles = array_map(fn (string $file): string => $this->path($file), $files);
+        $absoluteFiles = array_map(fn(string $file): string => $this->path($file), $files);
 
         return Fs::addZipList($this->path($zipfile), $absoluteFiles);
     }
