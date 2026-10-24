@@ -38,7 +38,7 @@ test('filesystem copies trees, lists hidden files, and removes trees', function 
 
 test('filesystem archives and extracts a directory safely', function (): void {
     $source = $this->root . '/archive-source';
-    $zip = $this->root . '/archive.zip';
+    $zip    = $this->root . '/archive.zip';
     Fs::mkdir($source);
     Fs::touchWrite($source . '/file.txt', 'contents');
 
