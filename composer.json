@@ -6,7 +6,7 @@
     "require": {
         "php": ">=8.2",
         "ext-zip": "*",
-        "strukt/base": "dev-main"
+        "strukt/base": "v1.0.0"
     },
     "require-dev": {
         "pestphp/pest": "^4.0"
@@ -24,15 +24,6 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../base",
-            "options": {
-                "symlink": false
-            }
-        }
-    ],
     "scripts": {
         "test": "pest"
     },
@@ -49,5 +40,6 @@
             "name": "pitsolu",
             "email": "pitsolu@gmail.com"
         }
-    ]
+    ],
+    "version": "2.0.0"
 }
